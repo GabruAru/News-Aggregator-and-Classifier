@@ -1,6 +1,6 @@
 import psycopg2
 from dotenv import load_dotenv
-from psycopg2 import OperationalError
+from psycopg2 import OperationalError ,ProgrammingError
 import logging 
 import os
 
@@ -25,10 +25,12 @@ def create_database():
         cursor.execute(f"CREATE DATABASE {database_name}")
         connection.commit()
         logging.info("Database created successfully")
-
+        
+    except ProgrammingError as e:
+        logging.warning(f"The database '{database_name}' already exists")
     except OperationalError as e:
         logging.error(f"The error '{e}' occurred")
-
+        
     finally:
         
         if connection:

@@ -8,7 +8,6 @@ logging.basicConfig(filename='logs/app.log', level=logging.INFO, format='%(ascti
 if __name__ == "__main__":
     rss_directory = 'feeds_data/'
 
-    # Get a list of all files in the directory
     rss_files = [os.path.join(rss_directory, f) for f in os.listdir(rss_directory) if os.path.isfile(os.path.join(rss_directory, f))]
     
     process_articles(rss_files)

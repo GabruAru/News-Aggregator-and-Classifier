@@ -21,14 +21,26 @@ class Article(Base):
 username = os.environ['user']
 password = os.environ['password']
 database_name = os.environ['Database_Name']
-engine = create_engine(f'postgresql://{username}:{password}@localhost/{database_name}')
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
 
-def save_articles(articles):
+
+def get_session():
+    engine = create_engine(f'postgresql://{username}:{password}@localhost/{database_name}')
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    
+    return Session()
+
+def save_articles(articles, session):
     for article_data in articles:
+        existing_article = session.query(Article).filter_by(title=article_data['title'], source_url=article_data['source_url']).first()
+        if existing_article:
+            logging.info(f"Article '{article_data['title']}' already exists in the database. Skipping...")
+            continue
         article = Article(**article_data)
         session.add(article)
     session.commit()
-    logging.info("Articles saved successfully")  # Add logging statement for information
+    logging.info("Articles saved successfully")
+
+def saving_articles(articles):
+    session = get_session()
+    save_articles(articles, session)

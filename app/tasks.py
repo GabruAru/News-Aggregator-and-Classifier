@@ -2,6 +2,7 @@ from celery import Celery
 from .feed_parser import parse_rss_feeds
 from .create_database import create_database
 from .database import saving_articles
+from .database import export_to_csv
 from .classifier import classify_article
 from .html_parser import handle_content
 
@@ -17,5 +18,6 @@ def process_articles(rss_feeds):
         article['category'] = category
     create_database()   
     saving_articles(articles)    
+    export_to_csv('articles.csv')
 
 

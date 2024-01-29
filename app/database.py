@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import logging 
 import os
+import csv
 
 load_dotenv()
 Base = declarative_base()
@@ -40,7 +41,26 @@ def save_articles(articles, session):
         session.add(article)
     session.commit()
     logging.info("Articles saved successfully")
+    
 
 def saving_articles(articles):
     session = get_session()
     save_articles(articles, session)
+
+def export_to_csv(filename):
+    session = get_session()
+    articles = session.query(Article).all()
+    print(articles)
+    csv_columns = ['id', 'title', 'content', 'publication_date', 'source_url', 'category']
+
+    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+        writer.writeheader()
+        for article in articles:
+            writer.writerow({'id': article.id,
+                             'title': article.title,
+                             'content': article.content,
+                             'publication_date': article.publication_date,
+                             'source_url': article.source_url,
+                             'category': article.category})
+    logging.info(f"Exported articles to {filename}")    

@@ -10,5 +10,5 @@ if __name__ == "__main__":
 
     rss_files = [os.path.join(rss_directory, f) for f in os.listdir(rss_directory) if os.path.isfile(os.path.join(rss_directory, f))]
     
-    process_articles(rss_files)
+    process_articles(rss_files[:1])
 

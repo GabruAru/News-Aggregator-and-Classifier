@@ -22,22 +22,26 @@ News Article Classifier is a Python application that collects news articles from
     ```bash
     git clone https://github.com/your-username/news-article-classifier.git
     ```
-
-2. Install dependencies:
+2. Create virtual Environment:
+     ```bash
+    python -m venv venv 
+    ```
+   
+3. Install dependencies:
 
     ```bash
     cd news-article-classifier
     pip install -r requirements.txt
     ```
 
-3. Set up PostgreSQL and Redis servers.
+4. Set up PostgreSQL and Redis servers.
 
   - For windows. First install Docker and run redis server with this
     ```bash
     docker run -d -p 6379:6379 --name redis-con redis:latest
     ```
     
-4. Configure environment variables:
+5. Configure environment variables:
     - Create a `.env` file in the project root.
     - Add the following environment variables:
         - `LLama_API`: Your LLama API key.
@@ -45,13 +49,13 @@ News Article Classifier is a Python application that collects news articles from
         - `user`: PostgreSQL username.
         - `password`: PostgreSQL password.
      
-5. Intialize the celery worker:
+6. Intialize the celery worker:
 
     ```bash
     celery -A app.worker worker --loglevel=info -P eventlet
      ```
     
-6. Run the application:
+7. Run the application:
 
     ```bash
     python main.py

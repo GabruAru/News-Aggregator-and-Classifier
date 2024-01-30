@@ -4,10 +4,17 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 import os
 from dotenv import load_dotenv
-
+import logging
+from celery.utils.log import get_task_logger
+from .worker import app
 load_dotenv()
 api = os.environ['LLama_API']
 
+celery_log = get_task_logger(__name__)
+
+
+
+@app.task(name="app.classify_article")
 def classify_article(article):
     llama = LlamaAPI(api_token=api)
 
@@ -24,8 +31,8 @@ def classify_article(article):
     {text} 
 
     """
-
     Prompt = PromptTemplate(template=prompt_template, input_variables=['text'])
-    chain = LLMChain(llm = model , prompt= Prompt)
-
-    return chain.invoke(article['content'])['text']
+    chain = LLMChain(llm=model, prompt=Prompt)
+    
+    category = chain.invoke(article['content'])['text']
+    return category

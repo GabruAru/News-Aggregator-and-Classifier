@@ -22,7 +22,7 @@ class Article(Base):
 username = os.environ['user']
 password = os.environ['password']
 database_name = os.environ['Database_Name']
-
+logging.info(f"Saving Articles in progress...")
 
 def get_session():
     engine = create_engine(f'postgresql://{username}:{password}@localhost/{database_name}')
@@ -40,7 +40,7 @@ def save_articles(articles, session):
         article = Article(**article_data)
         session.add(article)
     session.commit()
-    logging.info("Articles saved successfully")
+    logging.info(f"Articles saved successfully")
     
 
 def saving_articles(articles):
@@ -50,7 +50,7 @@ def saving_articles(articles):
 def export_to_csv(filename):
     session = get_session()
     articles = session.query(Article).all()
-    print(articles)
+
     csv_columns = ['id', 'title', 'content', 'publication_date', 'source_url', 'category']
 
     with open(filename, 'w', newline='', encoding='utf-8') as csvfile:

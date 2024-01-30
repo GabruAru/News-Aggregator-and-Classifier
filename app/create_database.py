@@ -10,6 +10,8 @@ username = os.environ['user']
 password = os.environ['password']
 database_name = os.environ['Database_Name']
 
+logging.info(f"Database creation is in progress...")    
+
 def create_database():
     try:
         connection = psycopg2.connect(

@@ -9,5 +9,5 @@ h.ignore_links = True
 def handle_content(articles):
     for article in articles:
         article['content'] = h.handle(article['content'])
-    logging.info("Parsed Articles content Successfully")    
+    logging.info(f"Processed HTML format content for {len(articles)} articles Successfully")    
     return articles    

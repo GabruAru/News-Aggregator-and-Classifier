@@ -6,7 +6,7 @@ from .database import export_to_csv
 from .html_parser import handle_content
 from .classifier import classify_article
 from celery.result import AsyncResult
-
+import logging
 
 def process_articles(rss_feeds):
     articles = parse_rss_feeds(rss_feeds)

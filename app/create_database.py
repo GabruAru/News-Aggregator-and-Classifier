@@ -10,9 +10,9 @@ username = os.environ['user']
 password = os.environ['password']
 database_name = os.environ['Database_Name']
 
-logging.info(f"Database creation is in progress...")    
 
 def create_database():
+    logging.info("Database creation in progress....")
     try:
         connection = psycopg2.connect(
             user=username,
@@ -29,9 +29,9 @@ def create_database():
         logging.info("Database created successfully")
         
     except ProgrammingError as e:
-        logging.warning(f"The database '{database_name}' already exists")
+        logging.info(f"The database '{database_name}' already exists")
     except OperationalError as e:
-        logging.error(f"The error '{e}' occurred")
+        logging.info(f"The error '{e}' occurred")
         
     finally:
         

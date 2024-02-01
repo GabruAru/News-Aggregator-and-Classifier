@@ -22,7 +22,7 @@ class Article(Base):
 username = os.environ['user']
 password = os.environ['password']
 database_name = os.environ['Database_Name']
-logging.info(f"Saving Articles in progress...")
+
 
 def get_session():
     engine = create_engine(f'postgresql://{username}:{password}@localhost/{database_name}')
@@ -32,6 +32,7 @@ def get_session():
     return Session()
 
 def save_articles(articles, session):
+    logging.info(f"Saving Articles in Progress.....")
     for article_data in articles:
         existing_article = session.query(Article).filter_by(title=article_data['title'], source_url=article_data['source_url']).first()
         if existing_article:

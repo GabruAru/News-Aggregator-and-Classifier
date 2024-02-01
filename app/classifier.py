@@ -14,7 +14,7 @@ celery_log = get_task_logger(__name__)
 
 
 
-@app.task(name="app.classify_article")
+@app.task(name="app.classify_article" , retry_kwargs={'max_retries': 5})
 def classify_article(article):
     llama = LlamaAPI(api_token=api)
 
